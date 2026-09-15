@@ -22,7 +22,7 @@ architectures = "all"
 multi_instance = true
 
 ldap = false
-sso = true
+sso = false
 
 disk = "50M"
 ram.build = "150M"
@@ -45,11 +45,11 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/kimusan/Tachyon/releases/latest/download/tachyon-latest.tar.gz"
+        url = "https://github.com/kimusan/Tachyon/releases/download/v4.2.3/tachyon-latest.tar.gz"
         sha256 = "d776c2e05e1898f7819b8570715c669383693511c6edfe7ae8f287e68a6200e0"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
-        autoupdate.asset = "^tachyon-[0-9\\.\\-]*tar.gz$"
+        autoupdate.asset = "^[0-9\\.\\-]/tachyon-latest*tar.gz$"
 
     [resources.system_user]
 
