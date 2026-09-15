@@ -10,11 +10,12 @@ ynh_script_progression "Restoring the app main directory..."
 
 ynh_restore "$install_dir"
 
-chmod -R "u=rwX,g=,o=" "$install_dir/app/data"
-chown -R "$app:$app" "$install_dir/app/data"
+#=================================================
+# RESTORE THE DATA DIRECTORY
+#=================================================
+ynh_script_progression "Restoring the data directory..."
 
-chmod "u=rX,g=,o=" "$install_dir/index.php"
-chown "$app:www-data" "$install_dir/index.php"
+ynh_restore "$data_dir"
 
 #=================================================
 # RESTORE SYSTEM CONFIGURATIONS

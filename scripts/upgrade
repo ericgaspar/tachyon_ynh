@@ -4,46 +4,11 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-ynh_script_progression "Ensuring downward compatibility..."
-
-# Do something when upgrading from 2.3.2~ynh1 or lower
-if ynh_app_upgrading_from_version_before_or_equal_to 2.28.4~ynh1; then
-    # Move everything inside a $install_dir/app/ subfolder
-    # This allows to have a $install_dir/index.php handling the SSO
-    mkdir -p "$install_dir/app"
-    # Ugly way to not return an error when moving everything to a subfolter of the same folder https://stackoverflow.com/a/43262922
-    find "$install_dir" -maxdepth 1 -mindepth 1 -not -name app -exec mv -t "$install_dir/app" {} +
-fi
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir/app" --full_replace --keep="data/_data_/_default_"
-
-#=================================================
-# UPDATE A CONFIG FILE
-#=================================================
-#ynh_script_progression "Updating configuration..."
-
-#mkdir -p "$install_dir/app/data/_data_/_default_/configs"
-#ynh_config_add --template="application.ini" --destination="$install_dir/app/data/_data_/_default_/configs/application.ini"
-
-chmod -R "u=rwX,g=,o=" "$install_dir/app/data"
-chown -R "$app:$app" "$install_dir/app/data"
-
-#=================================================
-# SETUP SSO
-#=================================================
-ynh_script_progression "Applying SSO patch..."
-
-ynh_config_add --template="sso.php" --destination="$install_dir/index.php"
-
-chmod "u=rX,g=,o=" "$install_dir/index.php"
-chown "$app:www-data" "$install_dir/index.php"
+ynh_setup_source --dest_dir="$install_dir/app" --full_replace --keep="include.php"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS

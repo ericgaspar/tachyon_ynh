@@ -8,28 +8,18 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Setting up source files..."
 
-ynh_setup_source --dest_dir="$install_dir/app"
+ynh_setup_source --dest_dir="$install_dir"
 
-#=================================================
-# ADD A CONFIGURATION
-#=================================================
-ynh_script_progression "Adding $app's configuration..."
-
-mkdir -p "$install_dir/app/data/_data_/_default_/configs"
-ynh_config_add --template="application.ini" --destination="$install_dir/app/data/_data_/_default_/configs/application.ini"
-
-chmod -R "u=rwX,g=,o=" "$install_dir/app/data"
-chown -R "$app:$app" "$install_dir/app/data"
+find $install_dir -type d -exec chmod 755 {} \;
+find $install_dir -type f -exec chmod 644 {} \;
+chown -R $app:$app $install_dir
 
 #=================================================
 # SETUP SSO
 #=================================================
 ynh_script_progression "Applying SSO patch..."
 
-ynh_config_add --template="sso.php" --destination="$install_dir/index.php"
-
-chmod "u=rX,g=,o=" "$install_dir/index.php"
-chown "$app:www-data" "$install_dir/index.php"
+ynh_config_add --template="include.php" --destination="$install_dir/include.php"
 
 #=================================================
 # SYSTEM CONFIGURATION
