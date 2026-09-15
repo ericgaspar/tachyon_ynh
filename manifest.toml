@@ -1,0 +1,82 @@
+packaging_format = 2
+
+id = "snappymail"
+name = "SnappyMail"
+description.en = "Simple, modern, lightweight & fast web-based e-mail client"
+description.fr = "Client de messagerie Web simple, moderne, léger et rapide"
+
+version = "2.38.2~ynh4"
+
+maintainers = []
+
+[upstream]
+license = "AGPL-3.0-only"
+website = "https://snappymail.eu/"
+demo = "https://snappymail.eu/demo/"
+admindoc = "https://github.com/the-djmaze/snappymail/wiki"
+code = "https://github.com/the-djmaze/snappymail"
+
+[integration]
+yunohost = ">= 12.1.39"
+helpers_version = "2.1"
+architectures = "all"
+multi_instance = true
+
+ldap = false
+sso = true
+
+disk = "50M"
+ram.build = "150M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.path]
+    type = "path"
+    default = "/snappymail"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+[resources]
+
+    [resources.sources]
+
+        [resources.sources.main]
+        url = "https://github.com/the-djmaze/snappymail/releases/download/v2.38.2/snappymail-2.38.2.tar.gz"
+        sha256 = "71f1d8a9065cc9cf7ddd064f5c47cc7b255cb70e6a56713647fc73d4b79e33ec"
+        in_subdir = false
+        autoupdate.strategy = "latest_github_release"
+        autoupdate.asset = "^snappymail-[0-9\\.\\-]*tar.gz$"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+    group = "www-data:r-x"
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.apt]
+    packages = [
+        "mariadb-server",
+        "php8.4-uuid",
+        "php8.4-imagick",
+        "php8.4-sqlite3",
+        "php8.4-tidy",
+        "php8.4-dom",
+        "php8.4-intl",
+        "php8.4-mysql",
+        "php8.4-curl",
+        "php8.4-gd",
+        "php8.4-cli",
+        "php8.4-xml",
+        "php8.4-mbstring",
+        "php8.4-ldap",
+    ]
+
+    [resources.database]
+    type = "mysql"
